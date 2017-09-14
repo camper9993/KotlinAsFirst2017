@@ -53,7 +53,8 @@ fun main(args: Array<String>) {
  * Пользователь задает время в часах, минутах и секундах, например, 8:20:35.
  * Рассчитать время в секундах, прошедшее с начала суток (30035 в данном случае).
  */
-fun seconds(hours: Int, minutes: Int, seconds: Int): Int = hours * 3600 + minutes * 60 + seconds
+fun seconds(hours: Int, minutes: Int, seconds: Int): Int
+        = hours * 3600 + minutes * 60 + seconds
 
 
 /**
@@ -63,7 +64,8 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int = hours * 3600 + minute
  * Определить длину того же отрезка в метрах (в данном случае 18.98).
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
-fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double = (vershoks * 4.445 + 4.445 * 16.0 * arshins + 4.445 * 16.0 * 3.0 * sagenes) / 100.0
+fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double
+        = (vershoks  + 16.0 * arshins + 16.0 * 3.0 * sagenes) * 0.04445
 
 /**
  * Тривиальная
@@ -107,7 +109,7 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double =
-        initial * ((percent/100.0 + 1)*(percent/100.0 + 1)*(percent/100.0 + 1))
+        initial * ((percent/100.0 + 1) * (percent/100.0 + 1)*(percent/100.0 + 1))
 
 /**
  * Простая
