@@ -36,18 +36,16 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String =
-
-    if (age % 10 == 1 && age % 100 != 11) age.toString() + " год" else {
-        if (age % 100 !in 12..14 && age % 10 in 2..4) age.toString() + " года" else
-            age.toString() + " лет"
-
-
-    }
+fun ageDescription(age: Int): String = when{
+    (age % 10 == 1 && age % 100 != 11) -> "$age год"
+    (age % 100 !in 12..14 && age % 10 in 2..4) -> "$age года"
+    else -> "$age лет"
+}
 
 
 /**
  * Простая
+ *
  *
  * Путник двигался t1 часов со скоростью v1 км/час, затем t2 часов — со скоростью v2 км/час
  * и t3 часов — со скоростью v3 км/час.
@@ -57,10 +55,12 @@ fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
     val S = (t1 * v1 + t2 * v2 + t3 * v3) / 2.0
+    val S1 = t1 * v1
+    val S2 = t2 * v2
     return when {
-        t1 * v1 >= S -> S/v1
-        (t1 * v1 + t2 * v2) >= S -> (S - v1 * t1) / v2 + t1
-        else -> (S - v1 * t1 - v2 * t2) / v3 + t1 + t2
+        S1 >= S -> S/v1
+        (S1 + S2) >= S -> (S - S1) / v2 + t1
+        else -> (S - S1 - S2) / v3 + t1 + t2
     }
 }
 
@@ -76,11 +76,16 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    return if ((kingX == rookX1 || kingY == rookY1) && (kingX != rookX2 && kingY != rookY2)) 1
-    else if ((kingX == rookX2 || kingY == rookY2) && (kingX != rookX1 && kingY != rookY1)) 2
-    else if ((kingX == rookX1 || kingY == rookY1) && (kingX == rookX2 || kingY == rookY2)) 3
-    else 0
-}
+    return when {
+        (kingX == rookX1 || kingY == rookY1) && (kingX != rookX2 && kingY != rookY2) -> 1
+        (kingX == rookX2 || kingY == rookY2) && (kingX != rookX1 && kingY != rookY1) -> 2
+        (kingX == rookX1 || kingY == rookY1) && (kingX == rookX2 || kingY == rookY2) -> 3
+        else  -> {
+            0
+        }
+
+    }
+                       }
 /**
  * Простая
  *
@@ -93,7 +98,12 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
+                          bishopX: Int, bishopY: Int): Int = when {
+                              (rookX == kingX || rookY == kingY) && ((kingX - kingY) == (bishopX - bishopY) || (kingX + kingY) == (bishopX + bishopY)) -> 3
+                              (rookX == kingX || rookY == kingY) -> 1
+                              (kingX - kingY) == (bishopX - bishopY) || (kingX + kingY) == (bishopX + bishopY) -> 2
+                              else -> 0
+                          }
 
 
 
@@ -108,20 +118,18 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
 
 
 
-fun triangleKind(a: Double, b: Double, c: Double): Int {
-    return when {
-        sqr(a) + sqr(b) == sqr(c) -> 1
-        sqr(b) + sqr(c) == sqr(a) -> 1
-        sqr(c) + sqr(a) == sqr(b) -> 1
-        a == b && a == c && b == c -> 0
-        (sqr(a) + sqr(b) - sqr(c)) / (2 * a * b) < 0 && (sqr(a) + sqr(b) - sqr(c)) / (2 * a * b) > -1 -> 2
-        (sqr(a) + sqr(c) - sqr(b)) / (2 * a * c) < 0 && (sqr(a) + sqr(c) - sqr(b)) / (2 * a * c) > -1 -> 2
-        (sqr(b) + sqr(c) - sqr(a)) / (2 * c * b) < 0 && (sqr(b) + sqr(c) - sqr(a)) / (2 * c * b) > -1 -> 2
-        (sqr(a) + sqr(b) - sqr(c)) / (2 * a * b) > 0 && (sqr(a) + sqr(b) - sqr(c)) / (2 * a * b) < 1 -> 0
-        (sqr(a) + sqr(c) - sqr(b)) / (2 * a * c) > 0 && (sqr(a) + sqr(c) - sqr(b)) / (2 * a * c) < 1 -> 0
-        (sqr(b) + sqr(c) - sqr(a)) / (2 * c * b) > 0 && (sqr(b) + sqr(c) - sqr(a)) / (2 * c * b) < 1 -> 0
-        else -> -1
-    }
+fun triangleKind(a: Double, b: Double, c: Double): Int = when {
+    sqr(a) + sqr(b) == sqr(c) -> 1
+    sqr(b) + sqr(c) == sqr(a) -> 1
+    sqr(c) + sqr(a) == sqr(b) -> 1
+    a == b && a == c && b == c -> 0
+    (sqr(a) + sqr(b) - sqr(c)) / (2 * a * b) < 0 && (sqr(a) + sqr(b) - sqr(c)) / (2 * a * b) > -1 -> 2
+    (sqr(a) + sqr(c) - sqr(b)) / (2 * a * c) < 0 && (sqr(a) + sqr(c) - sqr(b)) / (2 * a * c) > -1 -> 2
+    (sqr(b) + sqr(c) - sqr(a)) / (2 * c * b) < 0 && (sqr(b) + sqr(c) - sqr(a)) / (2 * c * b) > -1 -> 2
+    (sqr(a) + sqr(b) - sqr(c)) / (2 * a * b) > 0 && (sqr(a) + sqr(b) - sqr(c)) / (2 * a * b) < 1 -> 0
+    (sqr(a) + sqr(c) - sqr(b)) / (2 * a * c) > 0 && (sqr(a) + sqr(c) - sqr(b)) / (2 * a * c) < 1 -> 0
+    (sqr(b) + sqr(c) - sqr(a)) / (2 * c * b) > 0 && (sqr(b) + sqr(c) - sqr(a)) / (2 * c * b) < 1 -> 0
+    else -> -1
 }
 
 
@@ -133,13 +141,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    return when {
-        c > a && b < d -> b - c
-        c > a && d < b -> d - c
-        c < a && d < b && d > a -> d - a
-        a > c && b < d -> b - a
-        else -> -1
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = when {
+    c > a && b < d -> b - c
+    c > a && d < b -> d - c
+    c < a && d < b && d > a -> d - a
+    a > c && b < d -> b - a
+    else -> -1
 
-    }
 }
