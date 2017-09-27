@@ -65,7 +65,7 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
 fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double
-        = (vershoks  + 16.0 * arshins + 16.0 * 3.0 * sagenes) * 0.04445
+        = (vershoks + 16.0 * arshins + 16.0 * 3.0 * sagenes) * 0.04445
 
 /**
  * Тривиальная
@@ -99,7 +99,7 @@ fun thirdDigit(number: Int): Int = number % 1000 / 100
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
 fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int =
-        (hoursArrive-hoursDepart) * 60 + minutesArrive - minutesDepart
+        (hoursArrive - hoursDepart) * 60 + minutesArrive - minutesDepart
 
 /**
  * Простая
@@ -109,7 +109,7 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double =
-        initial * ((percent/100.0 + 1) * (percent/100.0 + 1) * (percent/100.0 + 1))
+        initial * ((percent / 100.0 + 1) * (percent / 100.0 + 1) * (percent / 100.0 + 1))
 
 /**
  * Простая
