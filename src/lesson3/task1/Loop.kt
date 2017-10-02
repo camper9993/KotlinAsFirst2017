@@ -241,10 +241,7 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean {
-    val s = revert(n)
-    return s == n
-}
+fun isPalindrome(n: Int): Boolean = revert(n) == n
 
 /**
  * Средняя
@@ -254,16 +251,13 @@ fun isPalindrome(n: Int): Boolean {
  */
 fun hasDifferentDigits(n: Int): Boolean {
     var x = n
-    var k: Int
-    var s: Int
     if (x < 9) return false
     else
         while (x > 10) {
-            k = x % 10
-            s = x % 100 / 10
-            if (k == s) x / 100
+            val k = x % 10
+            val s = x % 100 / 10
+            if (k == s) x /= 100
             else return true
-            x /= 100
         }
     return false
 }
