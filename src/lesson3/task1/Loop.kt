@@ -102,7 +102,7 @@ fun fib(n: Int): Int {
  */
 fun lcm(m: Int, n: Int): Int {
     var k = 1
-    while ((k % n != 0) || (k % m != 0)) {
+    while (k % n != 0 || k % m != 0) {
         k++
     }
     return k
@@ -184,8 +184,10 @@ fun sin(x: Double, eps: Double): Double {
     while (abs(y) >= eps) {
         i++
         y = pow(k, ((2 * i) + 1).toDouble()) / factorial(2 * i + 1)
-        if (i % 2 == 1) z -= y
-        else z += y
+        if (i % 2 == 1)
+            z -= y
+        else
+            z += y
     }
     return z
 }
@@ -210,8 +212,10 @@ fun cos(x: Double, eps: Double): Double {
     while (abs(y) >= eps) {
         i++
         y = pow(k, (2 * i).toDouble()) / factorial(2 * i)
-        if (i % 2 == 1) z -= y
-        else z += y
+        if (i % 2 == 1)
+            z -= y
+        else
+            z += y
     }
     return z
 }
@@ -250,12 +254,12 @@ fun isPalindrome(n: Int): Boolean = revert(n) == n
  */
 fun hasDifferentDigits(n: Int): Boolean {
     var x = n
-        while (x > 10) {
-            val k = x % 10
-            val s = x % 100 / 10
-            if (k == s) x /= 100
-            else return true
-        }
+    while (x > 10) {
+        val k = x % 10
+        val s = x % 100 / 10
+        if (k == s) x /= 100
+        else return true
+    }
     return false
 }
 
@@ -270,7 +274,6 @@ fun squareSequenceDigit(n: Int): Int {
     var s = 0
     var k = 0
     var x = 0
-    val del = 10
     while (s < n) {
         k++
         x = k * k
@@ -278,7 +281,7 @@ fun squareSequenceDigit(n: Int): Int {
         var b = x
         while (b > 0) {
             count++
-            b /= del
+            b /= 10
         }
         s += count
     }
@@ -301,7 +304,6 @@ fun fibSequenceDigit(n: Int): Int {
     var s = 0
     var k = 0
     var x = 0
-    val del = 10
     while (s < n) {
         k++
         x = fib(k)
@@ -309,12 +311,11 @@ fun fibSequenceDigit(n: Int): Int {
         var b = x
         while (b > 0) {
             count++
-            b /= del
+            b /= 10
         }
         s += count
     }
-    if (s == n) return x % 10
-    else while (s != n) {
+    while (s != n) {
         x /= 10
         s--
     }
