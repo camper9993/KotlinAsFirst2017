@@ -91,8 +91,7 @@ fun fib(n: Int): Int {
         b += a
         a = c
     }
-    return if ((n == 1) || (n == 2)) 1
-    else b
+    return b
 }
 
 /**
@@ -251,8 +250,6 @@ fun isPalindrome(n: Int): Boolean = revert(n) == n
  */
 fun hasDifferentDigits(n: Int): Boolean {
     var x = n
-    if (x < 9) return false
-    else
         while (x > 10) {
             val k = x % 10
             val s = x % 100 / 10
