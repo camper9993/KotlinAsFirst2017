@@ -285,8 +285,7 @@ fun squareSequenceDigit(n: Int): Int {
         }
         s += count
     }
-    if (s == n) return x % 10
-    else while (s != n) {
+    while (s != n) {
         x /= 10
         s--
     }
