@@ -98,13 +98,12 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           bishopX: Int, bishopY: Int): Int {
     val rookStrikeX = kingX == rookX
     val rookStrikeY = kingY == rookY
+    val rookStrike = rookStrikeX || rookStrikeY
     val bishopStrike = abs(kingX - bishopX) == abs(kingY - bishopY)
-    val bishopStrikeX = kingX - kingY == bishopX - bishopY
-    val bishopStrikeY = kingX + kingY == bishopX + bishopY
     return when {
-        (rookStrikeX || rookStrikeY) && bishopStrike -> 3
-         bishopStrikeX || bishopStrikeY -> 2
-        rookStrikeX || rookStrikeY -> 1
+        rookStrike && bishopStrike -> 3
+        bishopStrike -> 2
+        rookStrike -> 1
         else -> 0
     }
 }
@@ -142,9 +141,9 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = when {
+    a in c..d && b <= d -> b - a
+    a in c..d && b >= d -> d - a
     c in a..b && d >= b -> b - c
     c in a..b && d <= b -> d - c
-    a in c..d && b >= d -> d - a
-    a in c..d && b <= d -> b - a
     else -> -1
 }
