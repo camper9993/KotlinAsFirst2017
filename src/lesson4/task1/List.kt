@@ -307,6 +307,12 @@ fun russian(n: Int): String {
             }
         }
         for (i in 0 until 9) {
+            if (k / 1000 - k / 1000 % 10 - list2_2[i] == 0 && k / 1000 % 10 == 0 && amount(k) == 5 ) {
+                res.add(list2[i])
+                res.add(list4[0])
+                k -= list2_2[i] * 1000
+                break
+            }
             if (k / 1000 - k / 1000 % 10 - list2_2[i] == 0 && k / 1000 % 100 !in 11..19 && amount(k) == 5) {
                 res.add(list2[i])
                 k -= list2_2[i] * 1000
