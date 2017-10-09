@@ -124,10 +124,9 @@ fun abs(v: List<Double>): Double {
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-    val res: Double
-    if (list.isEmpty()) return 0.0
-    else res = list.sum() / list.size
-    return res
+    return if (list.isEmpty()) 0.0
+    else list.sum() / list.size
+
 }
 
 /**
@@ -252,16 +251,16 @@ fun roman(n: Int): String {
     var k = n
     val rom = listOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
     val numb = listOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
-    var fin = ""
+    val fin = StringBuilder()
     var i = 0
     while (k > 0) {
         if (k - numb[i] >= 0) {
             k -= numb[i]
-            fin += rom[i]
+            fin.append(rom[i])
         }
         else i++
     }
-    return fin
+    return fin.toString()
 }
 
 /**
@@ -271,6 +270,99 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
+
+
+fun russian(n: Int): String {
+    var k = n
+    val res = mutableListOf<String>()
+    val list1 = listOf("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val list2 = listOf("десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
+    val list3 = listOf("сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+    val list4 = listOf("тысяч", "тысячи", "тысяча")
+    val list5 = listOf("одна", "две")
+    val list6 = listOf("одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+    if (amount(k) == 6)
+        for (i in 0 until 9) {
+            if (k / 1000 - 100 * (i + 1) == 0 && amount(k) == 6 && k / 1000 % 100 == 0) {
+                res.add(list3[i])
+                res.add(list4[0])
+                k -= 100 * (i + 1)  * 1000
+                break
+            }
+            if (k / 1000 - k / 1000 % 100  - 100 * (i + 1)  == 0) {
+                res.add(list3[i])
+                k -= 100 * (i + 1)  * 1000
+            }
+        }
+    if (amount(k) == 5)
+        for (i in 0 until 9) {
+            if (k / 1000 - k / 1000 % 10 - 10 * (i + 1) == 0 && k / 1000 % 10 == 0) {
+                res.add(list2[i])
+                res.add(list4[0])
+                k -= 10 * (i + 1) * 1000
+                break
+            }
+            if (k / 1000 - k / 1000 % 10 - 10 * (i + 1) == 0 && k / 1000 % 100 !in 11..19) {
+                res.add(list2[i])
+                k -= 10 * (i + 1) * 1000
+            }
+            if (k / 1000 % 100 - (11 + i) == 0) {
+                res.add(list6[i])
+                res.add(list4[0])
+                k -= (11 + i) * 1000
+            }
+        }
+    if (amount(k) == 4) {
+        if (k / 1000 % 10 - 1 == 0 && k / 1000 % 100 !in 11..19) {
+            res.add(list5[0])
+            res.add(list4[2])
+            k -= 1000
+        }
+        for (i in 2..3)
+            if (k / 1000 % 10 - (1 + i) == 0 && k / 1000 % 100 !in 11..19) {
+                res.add(list1[i])
+                res.add(list4[1])
+                k -= (1 + i) * 1000
+            }
+        if (k / 1000 % 10 - 2 == 0 && k / 1000 % 100 !in 11..19) {
+            res.add(list5[1])
+            res.add(list4[1])
+            k -= 2 * 1000
+        }
+        for (i in 4..8)
+            if (k / 1000 % 10 - (1 + i) == 0 && k / 1000 % 100 !in 11..19) {
+                res.add(list1[i])
+                res.add(list4[0])
+                k -= (1 + i) * 1000
+            }
+    }
+    if (amount(k) == 3)
+        for (i in 0..8)
+            if (k - k % 100 - (i + 1) * 100 == 0) {
+                res.add(list3[i])
+                k -= (i + 1) * 100
+                break
+            }
+    if (amount(k) == 2)
+        for (i in 0 until 9) {
+            if (k - k % 10 - (i + 1) * 10 == 0 && k % 100 !in 11..19) {
+                res.add(list2[i])
+                k -= (i + 1) * 10
+            }
+            if (k % 100 - (11 + i)  == 0) {
+                res.add(list6[i])
+                k -= 11 + i
+            }
+        }
+    if (amount(k) == 1)
+        for (i in 0..8)
+            if (k % 10 - (i + 1) == 0) {
+                res.add(list1[i])
+                k -= (i + 1)
+            }
+    return res.joinToString(separator = " ")
+}
+
 fun amount(n: Int): Int {
     var k = n
     var i = 0
@@ -279,92 +371,4 @@ fun amount(n: Int): Int {
         i++
     }
     return i
-}
-
-fun russian(n: Int): String {
-    var k = n
-    val res = mutableListOf<String>()
-    val list1 = listOf<String>("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
-    val list1_1 = listOf<Int>(1, 2, 3, 4, 5, 6, 7, 8, 9)
-    val list2 = listOf<String>("десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
-    val list2_2 = listOf<Int>(10, 20, 30, 40, 50, 60, 70, 80, 90)
-    val list3 = listOf<String>("сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
-    val list3_3 = listOf<Int>(100, 200, 300, 400, 500, 600, 700, 800, 900)
-    val list4 = listOf<String>("тысяч", "тысячи", "тысяча")
-    val list5 = listOf<String>("одна", "две")
-    val list6 = listOf<String>("одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
-    val list6_6 = listOf<Int>(11, 12, 13, 14, 15, 16, 17, 18, 19)
-        for (i in 0 until 9) {
-            if (k / 1000 - list3_3[i] == 0 && amount(k) == 6 && k / 1000 % 100 == 0) {
-                res.add(list3[i])
-                res.add(list4[0])
-                k -= list3_3[i] * 1000
-                break
-            }
-            if (k / 1000 - k / 1000 % 100  - list3_3[i] == 0 && amount(k) == 6) {
-                res.add(list3[i])
-                k -= list3_3[i] * 1000
-            }
-        }
-        for (i in 0 until 9) {
-            if (k / 1000 - k / 1000 % 10 - list2_2[i] == 0 && k / 1000 % 10 == 0 && amount(k) == 5 ) {
-                res.add(list2[i])
-                res.add(list4[0])
-                k -= list2_2[i] * 1000
-                break
-            }
-            if (k / 1000 - k / 1000 % 10 - list2_2[i] == 0 && k / 1000 % 100 !in 11..19 && amount(k) == 5) {
-                res.add(list2[i])
-                k -= list2_2[i] * 1000
-            }
-            if (k / 1000 % 100 - list6_6[i] == 0 && amount(k) == 5) {
-                res.add(list6[i])
-                res.add(list4[0])
-                k -= list6_6[i] * 1000
-            }
-        }
-        if (k / 1000 % 10 - list1_1[0] == 0 && k / 1000 % 100 !in 11..19 && amount(k) == 4) {
-            res.add(list5[0])
-            res.add(list4[2])
-            k -= list1_1[0] * 1000
-        }
-        for (i in 2..3)
-            if (k / 1000 % 10 - list1_1[i] == 0 && k / 1000 % 100 !in 11..19 && amount(k) == 4) {
-                res.add(list1[i])
-                res.add(list4[1])
-                k -= list1_1[i] * 1000
-            }
-        if (k / 1000 % 10 - list1_1[1] == 0 && k / 1000 % 100 !in 11..19 && amount(k) == 4) {
-            res.add(list5[1])
-            res.add(list4[1])
-            k -= list1_1[1] * 1000
-        }
-        for (i in 4..8)
-            if (k / 1000 % 10 - list1_1[i] == 0 && k / 1000 % 100 !in 11..19 && amount(k) == 4) {
-                res.add(list1[i])
-                res.add(list4[0])
-                k -= list1_1[i] * 1000
-            }
-        for (i in 0..8)
-            if (k - k % 100 - list3_3[i] == 0 && amount(k) == 3) {
-                res.add(list3[i])
-                k -= list3_3[i]
-                break
-            }
-        for (i in 0 until 9) {
-            if (k - k % 10 - list2_2[i] == 0 && k % 100 !in 11..19 && amount(k) == 2) {
-                res.add(list2[i])
-                k -= list2_2[i]
-            }
-            if (k % 100 - list6_6[i] == 0 && amount(k) == 2) {
-                res.add(list6[i])
-                k -= list6_6[i]
-            }
-        }
-        for (i in 0..8)
-            if (k % 10 - list1_1[i] == 0 && amount(k) == 1) {
-                res.add(list1[i])
-                k -= list1_1[i]
-            }
-    return res.joinToString(separator = " ")
 }
