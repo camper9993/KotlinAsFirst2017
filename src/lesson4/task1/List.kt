@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson4.task1
 
 import lesson1.task1.discriminant
@@ -111,7 +112,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     var res = 0.0
-    for (i in 0 until v.size){
+    for (i in 0 until v.size) {
         res += sqr(v[i])
     }
     return sqrt(res)
@@ -123,11 +124,9 @@ fun abs(v: List<Double>): Double {
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double {
-    return if (list.isEmpty()) 0.0
-    else list.sum() / list.size
+fun mean(list: List<Double>): Double = if (list.isEmpty()) 0.0
+                                    else list.sum() / list.size
 
-}
 
 /**
  * Средняя
@@ -185,7 +184,7 @@ fun factorize(n: Int): List<Int> = TODO()
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String{
+fun factorizeToString(n: Int): String {
     val res = mutableListOf<Int>()
     var k = n
     var i = 2
@@ -194,8 +193,7 @@ fun factorizeToString(n: Int): String{
         if ((isPrime(i)) && (k % i == 0)) {
             res.add(i)
             k /= i
-        }
-        else i++
+        } else i++
     }
     return res.joinToString(separator = "*")
 }
@@ -257,8 +255,7 @@ fun roman(n: Int): String {
         if (k - numb[i] >= 0) {
             k -= numb[i]
             fin.append(rom[i])
-        }
-        else i++
+        } else i++
     }
     return fin.toString()
 }
@@ -281,94 +278,77 @@ fun russian(n: Int): String {
     val list4 = listOf("тысяч", "тысячи", "тысяча")
     val list5 = listOf("одна", "две")
     val list6 = listOf("одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
-    if (amount(k) == 6)
-        for (i in 0 until 9) {
-            if (k / 1000 - 100 * (i + 1) == 0 && amount(k) == 6 && k / 1000 % 100 == 0) {
-                res.add(list3[i])
-                res.add(list4[0])
-                k -= 100 * (i + 1)  * 1000
-                break
-            }
-            if (k / 1000 - k / 1000 % 100  - 100 * (i + 1)  == 0) {
-                res.add(list3[i])
-                k -= 100 * (i + 1)  * 1000
-            }
+    for (i in 0 until 9) {
+        if (k / 1000 - 100 * (i + 1) == 0 && k / 1000 % 100 == 0) {
+            res.add(list3[i])
+            res.add(list4[0])
+            k -= 100 * (i + 1) * 1000
+            break
         }
-    if (amount(k) == 5)
-        for (i in 0 until 9) {
-            if (k / 1000 - k / 1000 % 10 - 10 * (i + 1) == 0 && k / 1000 % 10 == 0) {
-                res.add(list2[i])
-                res.add(list4[0])
-                k -= 10 * (i + 1) * 1000
-                break
-            }
-            if (k / 1000 - k / 1000 % 10 - 10 * (i + 1) == 0 && k / 1000 % 100 !in 11..19) {
-                res.add(list2[i])
-                k -= 10 * (i + 1) * 1000
-            }
-            if (k / 1000 % 100 - (11 + i) == 0) {
-                res.add(list6[i])
-                res.add(list4[0])
-                k -= (11 + i) * 1000
-            }
+        if (k / 1000 - k / 1000 % 100 - 100 * (i + 1) == 0) {
+            res.add(list3[i])
+            k -= 100 * (i + 1) * 1000
         }
-    if (amount(k) == 4) {
-        if (k / 1000 % 10 - 1 == 0 && k / 1000 % 100 !in 11..19) {
-            res.add(list5[0])
-            res.add(list4[2])
-            k -= 1000
+    }
+    for (i in 0 until 9) {
+        if (k / 1000 - k / 1000 % 10 - 10 * (i + 1) == 0 && k / 1000 % 10 == 0) {
+            res.add(list2[i])
+            res.add(list4[0])
+            k -= 10 * (i + 1) * 1000
+            break
         }
-        for (i in 2..3)
-            if (k / 1000 % 10 - (1 + i) == 0 && k / 1000 % 100 !in 11..19) {
-                res.add(list1[i])
-                res.add(list4[1])
-                k -= (1 + i) * 1000
-            }
-        if (k / 1000 % 10 - 2 == 0 && k / 1000 % 100 !in 11..19) {
-            res.add(list5[1])
+        if (k / 1000 - k / 1000 % 10 - 10 * (i + 1) == 0 && k / 1000 % 100 !in 11..19) {
+            res.add(list2[i])
+            k -= 10 * (i + 1) * 1000
+        }
+        if (k / 1000 % 100 - (11 + i) == 0) {
+            res.add(list6[i])
+            res.add(list4[0])
+            k -= (11 + i) * 1000
+        }
+    }
+    if (k / 1000 % 10 - 1 == 0 && k / 1000 % 100 !in 11..19) {
+        res.add(list5[0])
+        res.add(list4[2])
+        k -= 1000
+    }
+    for (i in 2..3)
+        if (k / 1000 % 10 - (1 + i) == 0 && k / 1000 % 100 !in 11..19) {
+            res.add(list1[i])
             res.add(list4[1])
-            k -= 2 * 1000
+            k -= (1 + i) * 1000
         }
-        for (i in 4..8)
-            if (k / 1000 % 10 - (1 + i) == 0 && k / 1000 % 100 !in 11..19) {
-                res.add(list1[i])
-                res.add(list4[0])
-                k -= (1 + i) * 1000
-            }
+    if (k / 1000 % 10 - 2 == 0 && k / 1000 % 100 !in 11..19) {
+        res.add(list5[1])
+        res.add(list4[1])
+        k -= 2 * 1000
     }
-    if (amount(k) == 3)
-        for (i in 0..8)
-            if (k - k % 100 - (i + 1) * 100 == 0) {
-                res.add(list3[i])
-                k -= (i + 1) * 100
-                break
-            }
-    if (amount(k) == 2)
-        for (i in 0 until 9) {
-            if (k - k % 10 - (i + 1) * 10 == 0 && k % 100 !in 11..19) {
-                res.add(list2[i])
-                k -= (i + 1) * 10
-            }
-            if (k % 100 - (11 + i)  == 0) {
-                res.add(list6[i])
-                k -= 11 + i
-            }
+    for (i in 4..8)
+        if (k / 1000 % 10 - (1 + i) == 0 && k / 1000 % 100 !in 11..19) {
+            res.add(list1[i])
+            res.add(list4[0])
+            k -= (1 + i) * 1000
         }
-    if (amount(k) == 1)
-        for (i in 0..8)
-            if (k % 10 - (i + 1) == 0) {
-                res.add(list1[i])
-                k -= (i + 1)
-            }
+    for (i in 0..8)
+        if (k - k % 100 - (i + 1) * 100 == 0) {
+            res.add(list3[i])
+            k -= (i + 1) * 100
+            break
+        }
+    for (i in 0 until 9) {
+        if (k - k % 10 - (i + 1) * 10 == 0 && k % 100 !in 11..19) {
+            res.add(list2[i])
+            k -= (i + 1) * 10
+        }
+        if (k % 100 - (11 + i) == 0) {
+            res.add(list6[i])
+            k -= 11 + i
+        }
+    }
+    for (i in 0..8)
+        if (k % 10 - (i + 1) == 0) {
+            res.add(list1[i])
+            k -= (i + 1)
+        }
     return res.joinToString(separator = " ")
-}
-
-fun amount(n: Int): Int {
-    var k = n
-    var i = 0
-    while (k > 0){
-        k /= 10
-        i++
-    }
-    return i
 }
