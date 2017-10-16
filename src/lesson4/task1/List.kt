@@ -192,8 +192,10 @@ fun factorizeToString(n: Int): String {
     while (k != 1) {
         if ((isPrime(i)) && (k % i == 0)) {
             res.add(i)
+            while (k % i == 0)
             k /= i
-        } else i++
+        }
+        else i++
     }
     return res.joinToString(separator = "*")
 }
@@ -252,7 +254,7 @@ fun roman(n: Int): String {
     val fin = StringBuilder()
     var i = 0
     while (k > 0) {
-        if (k - numb[i] >= 0) {
+        if (k >= numb[i]) {
             k -= numb[i]
             fin.append(rom[i])
         } else i++
