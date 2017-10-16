@@ -114,7 +114,6 @@ fun bestLongJump(jumps: String): Int = TODO()
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int = TODO()
-
 /**
  * Сложная
  *
@@ -135,7 +134,19 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val res = StringBuilder()
+    val parts = str.split(" ")
+    var k = -1
+    for (i in 0 until parts.size - 1) {
+        res.append(parts[i])
+        if (parts[i].toLowerCase() == parts[i + 1].toLowerCase()) {
+            k = res.length - parts[i].length + i
+            break
+        }
+    }
+    return k
+}
 
 /**
  * Сложная
@@ -148,7 +159,25 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String{
+    val price = mutableListOf<Double>()
+    val name = mutableListOf<String>()
+    val parts = description.split(" ", "; ")
+    if (parts.size % 2 == 0) {
+        try {
+            for (i in 0 until parts.size)
+                if (i % 2 == 0)
+                    name.add(parts[i])
+                else
+                    price.add(parts[i].toDouble())
+        } catch (e: NumberFormatException) {
+            return ""
+        }
+        val index = price.indexOf(price.max())
+        return name[index]
+    }
+    else return ""
+}
 
 /**
  * Сложная
@@ -161,8 +190,36 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int {
+    var res = 0
+    val exp = Regex("^[M]*(CM?|(DC{0,3})|CD?|C{0,3})?(XC?|(LX{0,3})|XL|X{0,3})?(IX?|(VI{0,3})|IV?|I{0,3})?$")
+    if (roman matches exp) {
+        for (i in 0 until roman.length) {
+            if (i > 0)
+                when {
+                    roman[i - 1] == 'I' && roman[i] == 'V' -> res -= 2
+                    roman[i - 1] == 'I' && roman[i] == 'X' -> res -= 2
+                    roman[i - 1] == 'X' && roman[i] == 'L' -> res -= 20
+                    roman[i - 1] == 'X' && roman[i] == 'C' -> res -= 20
+                    roman[i - 1] == 'C' && roman[i] == 'D' -> res -= 200
+                    roman[i - 1] == 'C' && roman[i] == 'M' -> res -= 200
+                }
 
+            when {
+                roman[i] == 'I' -> res += 1
+                roman[i] == 'V' -> res += 5
+                roman[i] == 'X' -> res += 10
+                roman[i] == 'L' -> res += 50
+                roman[i] == 'C' -> res += 100
+                roman[i] == 'D' -> res += 500
+                roman[i] == 'M' -> res += 1000
+            }
+        }
+
+        return res
+    }
+    else return -1
+    }
 /**
  * Очень сложная
  *
