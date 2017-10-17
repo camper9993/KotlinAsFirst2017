@@ -190,13 +190,14 @@ fun factorizeToString(n: Int): String {
     var i = 2
     if (isPrime(k)) return k.toString()
     while (k != 1) {
-        if ((isPrime(i)) && (k % i == 0)) {
-            res.add(i)
-            while (k % i == 0)
+        if (isPrime(i))
+        while (k % i == 0) {
             k /= i
+            res.add(i)
         }
-        else i++
+        i++
     }
+
     return res.joinToString(separator = "*")
 }
 
