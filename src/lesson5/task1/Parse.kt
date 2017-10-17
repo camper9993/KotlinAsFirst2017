@@ -192,8 +192,8 @@ fun mostExpensive(description: String): String{
  */
 fun fromRoman(roman: String): Int {
     var res = 0
-    val exp = Regex("^[M]*(CM?|(DC{0,3})|CD?|C{0,3})?(XC?|(LX{0,3})|XL|X{0,3})?(IX?|(VI{0,3})|IV?|I{0,3})?$")
-    if (roman matches exp) {
+    val exp = Regex("^[M]*(CM?|(DC{0,3})|CD?|C{0,3})?(XC?|(LX{0,3})|XL?|X{0,3})?(IX?|(VI{0,3})|IV?|I{0,3})?$")
+    if (roman matches exp && roman != "") {
         for (i in 0 until roman.length) {
             if (i > 0)
                 when {
