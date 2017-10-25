@@ -343,5 +343,6 @@ fun russian(n: Int): String {
         res.add(list6[exceptionSecond % 10 - 1])
     else if (sixth != 0)
         res.add(list1[sixth - 1])
+
     return res.joinToString(separator = " ")
 }
