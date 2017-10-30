@@ -159,7 +159,7 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String{
+fun mostExpensive(description: String): String {
     val price = mutableListOf<Double>()
     val name = mutableListOf<String>()
     val parts = description.split(" ", "; ")
