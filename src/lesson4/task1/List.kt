@@ -337,7 +337,7 @@ fun russian(n: Int): String {
         }
     if (fourth != 0)
         res.add(list3[fourth - 1])
-    if (fifth != 0 && fifth != 1)
+    if (fifth != 0 && exceptionSecond !in 11..19)
         res.add(list2[fifth - 1])
     if (exceptionSecond in 11..19)
         res.add(list6[exceptionSecond % 10 - 1])
