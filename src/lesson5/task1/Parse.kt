@@ -218,8 +218,8 @@ fun fromRoman(roman: String): Int {
 
         return res
     }
-    else return -1
-    }
+    return -1
+}
 /**
  * Очень сложная
  *
