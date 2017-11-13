@@ -3,6 +3,8 @@ package lesson6.task1
 
 import lesson1.task1.sqr
 
+import java.lang.Math.*
+
 /**
  * Точка на плоскости
  */
@@ -73,7 +75,6 @@ data class Circle(val center: Point, val radius: Double) {
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
     fun distance(other: Circle): Double = TODO()
-
     /**
      * Тривиальная
      *
@@ -99,7 +100,23 @@ data class Segment(val begin: Point, val end: Point) {
  * Дано множество точек. Вернуть отрезок, соединяющий две наиболее удалённые из них.
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
-fun diameter(vararg points: Point): Segment = TODO()
+fun diameter(vararg points: Point): Segment {
+    require(points.size >= 2)
+    var maxLenght = 0.0
+    var pointX = points[0]
+    var pointY = points[1]
+        for (i in 0 until points.size) {
+            for (k in i + 1 until points.size) {
+                val distancePoints = sqrt(sqr(points[i].x - points[k].x) + sqr(points[i].y - points[k].y))
+                if (distancePoints > maxLenght) {
+                    maxLenght = distancePoints
+                    pointX = points[i]
+                    pointY = points[k]
+                }
+            }
+        }
+    return Segment(pointX, pointY)
+}
 
 /**
  * Простая
@@ -128,7 +145,12 @@ class Line private constructor(val b: Double, val angle: Double) {
      * Найти точку пересечения с другой линией.
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
-    fun crossPoint(other: Line): Point = TODO()
+    fun crossPoint(other: Line): Point {
+        val x = (other.b / cos(other.angle) - b / cos(angle)) / (tan(angle) - tan(other.angle))
+        val y = (x * sin(other.angle) + other.b) / cos(other.angle)
+
+        return Point(x, y)
+    }
 
     override fun equals(other: Any?) = other is Line && angle == other.angle && b == other.b
 
