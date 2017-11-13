@@ -156,59 +156,32 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
         else {
             val k = (abs(start.column - end.column) + abs(start.row - end.row)) / 2
 
-            if (a < b) {
-                if (Square(start.column + k, start.row + k).inside()) {
+                if (start.column <= end.column && start.row <= end.row && Square(start.column + k, start.row + k).inside()) {
                     route.add(start)
                     route.add(Square(start.column + k, start.row + k))
                     route.add(end)
                     return route
                 }
 
-                if (Square(start.column + k, start.row - k).inside()) {
+                if (start.column <= end.column && start.row >= end.row && Square(start.column + k, start.row - k).inside()) {
                     route.add(start)
                     route.add(Square(start.column + k, start.row - k))
                     route.add(end)
                     return route
                 }
 
-                if (Square(start.column - k, start.row + k).inside()) {
+                if (start.column >= end.column && start.row <= end.row && Square(start.column - k, start.row + k).inside()) {
                     route.add(start)
                     route.add(Square(start.column - k, start.row + k))
                     route.add(end)
                     return route
                 }
-
-                if (Square(start.column - k, start.row - k).inside()) {
+                if (start.column >= end.column && start.row >= end.row && Square(start.column - k, start.row - k).inside()) {
                     route.add(start)
                     route.add(Square(start.column - k, start.row - k))
                     route.add(end)
                     return route
                 }
-            } else
-                if (Square(end.column + k, end.row + k).inside()) {
-                    route.add(start)
-                    route.add(Square(end.column + k, end.row + k))
-                    route.add(end)
-                    return route
-                }
-            if (Square(end.column + k, end.row - k).inside()) {
-                route.add(start)
-                route.add(Square(end.column + k, end.row - k))
-                route.add(end)
-                return route
-            }
-            if (Square(end.column - k, end.row + k).inside()) {
-                route.add(start)
-                route.add(Square(end.column - k, end.row + k))
-                route.add(end)
-                return route
-            }
-            if (Square(end.column - k, end.row - k).inside()) {
-                route.add(start)
-                route.add(Square(end.column - k, end.row - k))
-                route.add(end)
-                return route
-            }
             }
         }
 
