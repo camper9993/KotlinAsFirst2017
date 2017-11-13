@@ -41,9 +41,8 @@ data class Square(val column: Int, val row: Int) {
 fun square(notation: String): Square {
     val regex = Regex("^[a-h][1-8]$")
     require(notation matches regex)
-    val parts = notation.split("")
     val list = ('a' .. 'h').toList()
-    var k = list.indexOf(notation[0]) + 1
+    val k = list.indexOf(notation[0]) + 1
     return(Square(k,notation[1].toString().toInt()))
 }
 
@@ -113,7 +112,7 @@ fun rookTrajectory(start: Square, end: Square): List<Square> = TODO()
  */
 fun bishopMoveNumber(start: Square, end: Square): Int {
     require(start.inside() && end.inside())
-    var k = 0
+    var k : Int
     val a = start.column + start.row
     val b = end.column + end.row
     if (a % 2 == b % 2) {
@@ -161,24 +160,28 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
                 route.add(start)
                 route.add(Square(start.column + k,start.row + k))
                 route.add(end)
+                return route
             }
 
             if (Square(start.column + k,start.row - k).inside()) {
                 route.add(start)
                 route.add(Square(start.column + k,start.row - k))
                 route.add(end)
+                return route
             }
 
             if (Square(start.column - k,start.row + k).inside()) {
                 route.add(start)
                 route.add(Square(start.column - k,start.row + k))
                 route.add(end)
+                return route
             }
 
             if (Square(start.column - k,start.row - k).inside()) {
                 route.add(start)
                 route.add(Square(start.column - k,start.row - k))
                 route.add(end)
+                return route
             }
 
             }
