@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson6.task1
 
 import lesson1.task1.sqr
@@ -31,7 +32,8 @@ class Triangle private constructor(private val points: Set<Point>) {
 
     val c: Point get() = pointList[2]
 
-    constructor(a: Point, b: Point, c: Point): this(linkedSetOf(a, b, c))
+    constructor(a: Point, b: Point, c: Point) : this(linkedSetOf(a, b, c))
+
     /**
      * Пример: полупериметр
      */
@@ -75,6 +77,7 @@ data class Circle(val center: Point, val radius: Double) {
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
     fun distance(other: Circle): Double = TODO()
+
     /**
      * Тривиальная
      *
@@ -105,18 +108,20 @@ fun diameter(vararg points: Point): Segment {
     var maxLenght = 0.0
     var pointX = points[0]
     var pointY = points[1]
-        for (i in 0 until points.size) {
-            for (k in i + 1 until points.size) {
-                val distancePoints = sqrt(sqr(points[i].x - points[k].x) + sqr(points[i].y - points[k].y))
-                if (distancePoints > maxLenght) {
-                    maxLenght = distancePoints
-                    pointX = points[i]
-                    pointY = points[k]
-                }
+    for (i in 0 until points.size) {
+        for (k in i + 1 until points.size) {
+            val distancePoints = distancePoints(points[i],points[k])
+            if (distancePoints > maxLenght) {
+                maxLenght = distancePoints
+                pointX = points[i]
+                pointY = points[k]
             }
         }
+    }
     return Segment(pointX, pointY)
 }
+fun distancePoints(a:Point, b:Point): Double = sqrt(sqr(a.x - b.x) + sqr(a.y - b.y))
+
 
 /**
  * Простая
@@ -137,7 +142,7 @@ class Line private constructor(val b: Double, val angle: Double) {
         assert(angle >= 0 && angle < Math.PI) { "Incorrect line angle: $angle" }
     }
 
-    constructor(point: Point, angle: Double): this(point.y * Math.cos(angle) - point.x * Math.sin(angle), angle)
+    constructor(point: Point, angle: Double) : this(point.y * Math.cos(angle) - point.x * Math.sin(angle), angle)
 
     /**
      * Средняя
