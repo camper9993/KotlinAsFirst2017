@@ -1,5 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson6.task2
+
 import java.lang.Math.*
 
 /**
@@ -22,7 +24,7 @@ data class Square(val column: Int, val row: Int) {
      * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
      * Для клетки не в пределах доски вернуть пустую строку
      */
-    fun notation(): String{
+    fun notation(): String {
         var str = ""
         val list = ('a'..'h').toList()
 
@@ -41,9 +43,9 @@ data class Square(val column: Int, val row: Int) {
 fun square(notation: String): Square {
     val regex = Regex("^[a-h][1-8]$")
     require(notation matches regex)
-    val list = ('a' .. 'h').toList()
+    val list = ('a'..'h').toList()
     val k = list.indexOf(notation[0]) + 1
-    return(Square(k,notation[1].toString().toInt()))
+    return Square(k, notation[1].toString().toInt())
 }
 
 /**
@@ -112,15 +114,16 @@ fun rookTrajectory(start: Square, end: Square): List<Square> = TODO()
  */
 fun bishopMoveNumber(start: Square, end: Square): Int {
     require(start.inside() && end.inside())
-    var k : Int
     val a = start.column + start.row
     val b = end.column + end.row
-    if (a % 2 == b % 2) {
-        k = if (abs(start.row - end.row) == abs(start.column - end.column)) 1
-        else 2
-        if (start == end) k = 0
-    } else k = -1
-    return k
+    var result = 0
+    when {
+        a % 2 != b % 2 -> result = -1
+        start == end -> result = 0
+        abs(start.row - end.row) == abs(start.column - end.column) -> result = 1
+        abs(start.row - end.row) != abs(start.column - end.column) -> result = 2
+    }
+    return result
 }
 
 /**
@@ -145,6 +148,8 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
     val route = mutableListOf<Square>()
     val a = start.column + start.row
     val b = end.column + end.row
+    val c = start.row - end.row
+    val d = start.column - end.column
 
     if (a % 2 != b % 2) return route
     if (a == b) route.add(start)
@@ -152,39 +157,36 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
         if (abs(start.row - end.row) == abs(start.column - end.column)) {
             route.add(start)
             route.add(end)
-        }
-        else {
-            val k = (abs(start.column - end.column) + abs(start.row - end.row)) / 2
-
-                if (start.column <= end.column && start.row <= end.row && Square(start.column + k, start.row + k).inside()) {
-                    route.add(start)
-                    route.add(Square(start.column + k, start.row + k))
-                    route.add(end)
-                    return route
-                }
-
-                if (start.column <= end.column && start.row >= end.row && Square(start.column + k, start.row - k).inside()) {
-                    route.add(start)
-                    route.add(Square(start.column + k, start.row - k))
-                    route.add(end)
-                    return route
-                }
-
-                if (start.column >= end.column && start.row <= end.row && Square(start.column - k, start.row + k).inside()) {
-                    route.add(start)
-                    route.add(Square(start.column - k, start.row + k))
-                    route.add(end)
-                    return route
-                }
-                if (start.column >= end.column && start.row >= end.row && Square(start.column - k, start.row - k).inside()) {
-                    route.add(start)
-                    route.add(Square(start.column - k, start.row - k))
-                    route.add(end)
-                    return route
+        } else {
+            route.add(start)
+            route.add(end)
+            for (i in 1..8) {
+                val j = i
+                val x = start.column + i
+                val y = start.column - i
+                val z = start.row + j
+                val w = start.row - j
+                when {
+                    abs(c + j) == abs(d + i) && Square(x, z).inside() -> {
+                        route.add(1, Square(x, z))
+                        return route
+                    }
+                    abs(c - j) == abs(d + i) && Square(x, w).inside() -> {
+                        route.add(1, Square(x, w))
+                        return route
+                    }
+                    abs(c + j) == abs(d - i) && Square(y, z).inside() -> {
+                        route.add(1, Square(y, z))
+                        return route
+                    }
+                    abs(c - j) == abs(d - i) && Square(y, w).inside() -> {
+                        route.add(1, Square(y, w))
+                        return route
+                    }
                 }
             }
         }
-
+    }
     return route
 }
 
