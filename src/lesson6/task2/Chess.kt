@@ -154,7 +154,7 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
     val eC = end.column
 
     if (a % 2 != b % 2) return route
-    if (a == b) route.add(start)
+    if (end == start) route.add(start)
     else {
         if (abs(start.row - end.row) == abs(start.column - end.column)) {
             route.add(start)
