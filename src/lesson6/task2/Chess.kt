@@ -127,7 +127,7 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
 }
 
 /**
- * Сложная
+ * Сложнаяz
  *
  * Вернуть список из клеток, по которым шахматный слон может быстрее всего попасть из клетки start в клетку end.
  * Описание ходов слона см. предыдущую задачу.
@@ -148,8 +148,10 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
     val route = mutableListOf<Square>()
     val a = start.column + start.row
     val b = end.column + end.row
-    val c = start.row - end.row
-    val d = start.column - end.column
+    val sR = start.row
+    val sC = start.column
+    val eR = end.row
+    val eC = end.column
 
     if (a % 2 != b % 2) return route
     if (a == b) route.add(start)
@@ -161,29 +163,11 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
             route.add(start)
             route.add(end)
             for (i in 1..8) {
-                val j = i
-                val x = start.column + i
-                val y = start.column - i
-                val z = start.row + j
-                val w = start.row - j
-                when {
-                    abs(c + j) == abs(d + i) && Square(x, z).inside() -> {
-                        route.add(1, Square(x, z))
+                for (k in 1..8)
+                    if (abs(sC - i) == abs(sR - k) && abs(eC - i) == abs(eR - k) && Square(i, k).inside()) {
+                        route.add(1,Square(i, k))
                         return route
                     }
-                    abs(c - j) == abs(d + i) && Square(x, w).inside() -> {
-                        route.add(1, Square(x, w))
-                        return route
-                    }
-                    abs(c + j) == abs(d - i) && Square(y, z).inside() -> {
-                        route.add(1, Square(y, z))
-                        return route
-                    }
-                    abs(c - j) == abs(d - i) && Square(y, w).inside() -> {
-                        route.add(1, Square(y, w))
-                        return route
-                    }
-                }
             }
         }
     }
