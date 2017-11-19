@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson7.task2
 
 import lesson7.task1.Matrix
@@ -75,7 +76,28 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
  *  1  2  2  2  2  1
  *  1  1  1  1  1  1
  */
-fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateRectangles(height: Int, width: Int): Matrix<Int> {
+    var k = 1
+    val result = createMatrix(height, width, k)
+    val h = height
+    val w = width
+    var hei = height
+    var wid = width
+    while (hei > 0 && wid > 0) {
+        for (i in 0 until h) {
+            result[i, k - 1] = k
+            result[i, w - 1] = k
+        }
+        for (i in 0 until w) {
+            result[h - 1, i] = k
+            result[k - 1, i] = k
+        }
+        hei -= 2
+        wid -= 2
+        k++
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -118,7 +140,32 @@ fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
  * 1 2 3
  * 3 1 2
  */
-fun isLatinSquare(matrix: Matrix<Int>): Boolean = TODO()
+fun isLatinSquare(matrix: Matrix<Int>): Boolean {
+    val resultHorizontal = mutableListOf<Int>()
+    val resultVertical = mutableListOf<Int>()
+    val example = mutableListOf<Int>()
+    for (i in 0 until matrix.width) {
+        example.add(i + 1)
+    }
+    if (matrix.height != matrix.width) return false
+    else {
+        for (i in 0 until matrix.height) {
+            for (k in 0 until matrix.width) {
+                resultHorizontal.add(matrix[i, k])
+            }
+            for (j in 0 until matrix.height)
+                resultVertical.add(matrix[j, i])
+            resultHorizontal.sort()
+            resultVertical.sort()
+            if (resultHorizontal == example && resultVertical == example) {
+                resultHorizontal.clear()
+                resultVertical.clear()
+            } else
+                return false
+        }
+    }
+    return true
+}
 
 /**
  * Средняя
@@ -137,7 +184,33 @@ fun isLatinSquare(matrix: Matrix<Int>): Boolean = TODO()
  *
  * 42 ===> 0
  */
-fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> = TODO()
+fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> {
+    if (matrix.width <= 1 || matrix.height <= 1) return matrix
+    val res = createMatrix(height = matrix.height, width = matrix.width, e = matrix[0, 0])
+
+    for (i in 0 until matrix.height)
+        for (k in 0 until matrix.width) {
+            /** val sum1 = res[i + 1, k] + res[i, k + 1] + res[i + 1, k + 1]
+            val sum2 = res[i + 1, k] + res[i, k - 1] + res[i + 1, k - 1]
+            val sum3 = res[i - 1, k] + res[i, k + 1] + res[i - 1, k + 1]
+            val sum4 = res[i - 1, k] + res[i, k - 1] + res[i - 1, k - 1]
+            val sum5 = sum1 + sum2 + sum3 + sum4 - res[i - 1, k] - res[i, k + 1]
+             */
+            when {
+                i == 0 && k == 0 -> res[i, k] = res[i + 1, k] + res[i, k + 1] + res[i + 1, k + 1]
+                i == 0 && k == matrix.width - 1 -> res[i, k] = res[i + 1, k] + res[i, k - 1] + res[i + 1, k - 1]
+                i == matrix.height - 1 && k == 0 -> res[i, k] = res[i - 1, k] + res[i, k + 1] + res[i - 1, k + 1]
+                i == matrix.height - 1 && k == matrix.width - 1 -> res[i, k] = res[i - 1, k] + res[i, k - 1] + res[i - 1, k - 1]
+                i == 0 && k > 0 -> res[i, k] = res[i + 1, k] + res[i, k + 1] + res[i + 1, k + 1] + res[i, k - 1] + res[i + 1, k - 1]
+                i > 0 && k == 0 -> res[i, k] = res[i + 1, k] + res[i, k + 1] + res[i + 1, k + 1] + res[i - 1, k] + res[i - 1, k + 1]
+                i == matrix.height - 1 && k > 0 -> res[i, k] = res[i - 1, k] + res[i, k + 1] + res[i - 1, k + 1] + res[i, k - 1] + res[i - 1, k - 1]
+                i > 0 && k == matrix.width - 1 -> res[i, k] = res[i + 1, k] + res[i + 1, k - 1] + res[i - 1, k] + res[i, k - 1] + res[i - 1, k - 1]
+                else -> res[i, k] = res[i + 1, k] + res[i, k + 1] + res[i + 1, k + 1] + res[i, k - 1] + res[i + 1, k - 1] + res[i - 1, k] + res[i - 1, k + 1] + res[i - 1, k - 1]
+            }
+        }
+    return res
+}
+
 
 /**
  * Средняя
