@@ -147,26 +147,24 @@ fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
  * 3 1 2
  */
 fun isLatinSquare(matrix: Matrix<Int>): Boolean {
-    val resultHorizontal = mutableListOf<Int>()
-    val resultVertical = mutableListOf<Int>()
     val example = mutableListOf<Int>()
-    for (i in 0 until matrix.width) {
-        example.add(i + 1)
-    }
+
     if (matrix.height != matrix.width) return false
     else {
+        for (i in 0 until matrix.width) {
+            example.add(i + 1)
+        }
+
         for (i in 0 until matrix.height) {
+            val resultHorizontal = mutableListOf<Int>()
+            val resultVertical = mutableListOf<Int>()
             for (k in 0 until matrix.width) {
                 resultHorizontal.add(matrix[i, k])
+                resultVertical.add(matrix[k, i])
+                resultHorizontal.sort()
+                resultVertical.sort()
             }
-            for (j in 0 until matrix.height)
-                resultVertical.add(matrix[j, i])
-            resultHorizontal.sort()
-            resultVertical.sort()
-            if (resultHorizontal == example && resultVertical == example) {
-                resultHorizontal.clear()
-                resultVertical.clear()
-            } else
+            if (resultHorizontal != example || resultVertical != example)
                 return false
         }
     }
