@@ -190,32 +190,7 @@ fun isLatinSquare(matrix: Matrix<Int>): Boolean {
  *
  * 42 ===> 0
  */
-fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> {
-    if (matrix.width <= 1 && matrix.height <= 1) return matrix
-    val res = createMatrix(height = matrix.height, width = matrix.width, e = matrix[0, 0])
-
-    for (i in 0 until matrix.height)
-        for (k in 0 until matrix.width) {
-            /** val sum1 = res[i + 1, k] + res[i, k + 1] + res[i + 1, k + 1]
-            val sum2 = res[i + 1, k] + res[i, k - 1] + res[i + 1, k - 1]
-            val sum3 = res[i - 1, k] + res[i, k + 1] + res[i - 1, k + 1]
-            val sum4 = res[i - 1, k] + res[i, k - 1] + res[i - 1, k - 1]
-            val sum5 = sum1 + sum2 + sum3 + sum4 - res[i - 1, k] - res[i, k + 1]
-             */
-            when {
-                i == 0 && k == 0 -> res[i, k] = res[i + 1, k] + res[i, k + 1] + res[i + 1, k + 1]
-                i == 0 && k == matrix.width - 1 -> res[i, k] = res[i + 1, k] + res[i, k - 1] + res[i + 1, k - 1]
-                i == matrix.height - 1 && k == 0 -> res[i, k] = res[i - 1, k] + res[i, k + 1] + res[i - 1, k + 1]
-                i == matrix.height - 1 && k == matrix.width - 1 -> res[i, k] = res[i - 1, k] + res[i, k - 1] + res[i - 1, k - 1]
-                i == 0 && k > 0 -> res[i, k] = res[i + 1, k] + res[i, k + 1] + res[i + 1, k + 1] + res[i, k - 1] + res[i + 1, k - 1]
-                i > 0 && k == 0 -> res[i, k] = res[i + 1, k] + res[i, k + 1] + res[i + 1, k + 1] + res[i - 1, k] + res[i - 1, k + 1]
-                i == matrix.height - 1 && k > 0 -> res[i, k] = res[i - 1, k] + res[i, k + 1] + res[i - 1, k + 1] + res[i, k - 1] + res[i - 1, k - 1]
-                i > 0 && k == matrix.width - 1 -> res[i, k] = res[i + 1, k] + res[i + 1, k - 1] + res[i - 1, k] + res[i, k - 1] + res[i - 1, k - 1]
-                else -> res[i, k] = res[i + 1, k] + res[i, k + 1] + res[i + 1, k + 1] + res[i, k - 1] + res[i + 1, k - 1] + res[i - 1, k] + res[i - 1, k + 1] + res[i - 1, k - 1]
-            }
-        }
-    return res
-}
+fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> = TODO()
 
 
 /**
