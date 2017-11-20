@@ -3,6 +3,7 @@
 package lesson6.task1
 
 import lesson1.task1.sqr
+import java.awt.geom.Point2D.distance
 
 import java.lang.Math.*
 
@@ -110,7 +111,7 @@ fun diameter(vararg points: Point): Segment {
     var pointY = points[1]
     for (i in 0 until points.size) {
         for (k in i + 1 until points.size) {
-            val distancePoints = distancePoints(points[i],points[k])
+            val distancePoints = distance(points[k].x,points[k].y,points[i].x,points[i].y)
             if (distancePoints > maxLenght) {
                 maxLenght = distancePoints
                 pointX = points[i]
@@ -120,7 +121,6 @@ fun diameter(vararg points: Point): Segment {
     }
     return Segment(pointX, pointY)
 }
-fun distancePoints(a:Point, b:Point): Double = sqrt(sqr(a.x - b.x) + sqr(a.y - b.y))
 
 
 /**
