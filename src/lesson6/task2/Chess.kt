@@ -127,7 +127,7 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
 }
 
 /**
- * Сложнаяz
+ * Сложная
  *
  * Вернуть список из клеток, по которым шахматный слон может быстрее всего попасть из клетки start в клетку end.
  * Описание ходов слона см. предыдущую задачу.
@@ -153,25 +153,29 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
     val eR = end.row
     val eC = end.column
 
-    if (a % 2 != b % 2) return route
-    if (end == start) route.add(start)
-    else {
-        if (abs(start.row - end.row) == abs(start.column - end.column)) {
+    when {
+        (a % 2 != b % 2) -> return route
+        (end == start) -> route.add(start)
+
+        (abs(start.row - end.row) == abs(start.column - end.column)) -> {
             route.add(start)
             route.add(end)
-        } else {
+        }
+        abs(start.row - end.row) != abs(start.column - end.column) -> {
             route.add(start)
             route.add(end)
             for (i in 1..8) {
                 for (k in 1..8)
                     if (abs(sC - i) == abs(sR - k) && abs(eC - i) == abs(eR - k) && Square(i, k).inside()) {
-                        route.add(1,Square(i, k))
+                        route.add(1, Square(i, k))
                         return route
                     }
             }
         }
     }
     return route
+
+
 }
 
 /**
