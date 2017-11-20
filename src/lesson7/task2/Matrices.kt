@@ -79,19 +79,25 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
 fun generateRectangles(height: Int, width: Int): Matrix<Int> {
     var k = 1
     val result = createMatrix(height, width, k)
-    val h = height
-    val w = width
+    var h = height
+    var w = width
     var hei = height
     var wid = width
+    var a = 0
+    var b = 0
     while (hei > 0 && wid > 0) {
-        for (i in 0 until h) {
+        for (i in a until h) {
             result[i, k - 1] = k
             result[i, w - 1] = k
         }
-        for (i in 0 until w) {
+        for (i in b until w) {
             result[h - 1, i] = k
             result[k - 1, i] = k
         }
+        a++
+        b++
+        h--
+        w--
         hei -= 2
         wid -= 2
         k++
@@ -185,7 +191,7 @@ fun isLatinSquare(matrix: Matrix<Int>): Boolean {
  * 42 ===> 0
  */
 fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> {
-    if (matrix.width <= 1 || matrix.height <= 1) return matrix
+    if (matrix.width <= 1 && matrix.height <= 1) return matrix
     val res = createMatrix(height = matrix.height, width = matrix.width, e = matrix[0, 0])
 
     for (i in 0 until matrix.height)
