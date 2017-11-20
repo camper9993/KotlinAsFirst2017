@@ -38,7 +38,11 @@ interface Matrix<E> {
  * height = высота, width = ширина, e = чем заполнить элементы.
  * Бросить исключение IllegalArgumentException, если height или width <= 0.
  */
-fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> =  MatrixImpl(height, width, e)
+fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
+    require(height > 0 && width > 0)
+    return MatrixImpl(height, width, e)
+}
+
 
 
 /**
@@ -68,10 +72,15 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
         set(cell.row, cell.column, value)
     }
 
+    fun equality(other: MatrixImpl<*>): Boolean {
+        if (height != other.height && width != other.width) return false
+        for (i in 0 until height * width)
+            if (list[i] != other.list[i]) return false
+        return true
+    }
+
     override fun equals(other: Any?) =
-            other is MatrixImpl<*> &&
-                    height == other.height &&
-                    width == other.width
+            other is MatrixImpl<*> && equality(other)
 
     override fun toString(): String = list.joinToString()
 }
