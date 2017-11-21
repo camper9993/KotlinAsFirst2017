@@ -81,25 +81,20 @@ fun generateRectangles(height: Int, width: Int): Matrix<Int> {
     val result = createMatrix(height, width, k)
     var h = height
     var w = width
-    var hei = height
-    var wid = width
-    var a = 0
-    var b = 0
-    while (hei > 0 && wid > 0) {
-        for (i in a until h) {
+    var i = maxOf(h,w) / 2 + maxOf(h,w) % 2
+
+    while (i != 0) {
+        for (j in k - 1 until h) {
             result[i, k - 1] = k
             result[i, w - 1] = k
         }
-        for (i in b until w) {
+        for (j in k - 1 until w) {
             result[h - 1, i] = k
             result[k - 1, i] = k
         }
-        a++
-        b++
         h--
         w--
-        hei -= 2
-        wid -= 2
+        i--
         k++
     }
     return result
@@ -150,24 +145,23 @@ fun isLatinSquare(matrix: Matrix<Int>): Boolean {
     val example = mutableListOf<Int>()
 
     if (matrix.height != matrix.width) return false
-    else {
+
         for (i in 0 until matrix.width) {
             example.add(i + 1)
         }
 
         for (i in 0 until matrix.height) {
-            val resultHorizontal = mutableListOf<Int>()
-            val resultVertical = mutableListOf<Int>()
+            val resultHorizontal = mutableSetOf<Int>()
+            val resultVertical = mutableSetOf<Int>()
             for (k in 0 until matrix.width) {
                 resultHorizontal.add(matrix[i, k])
                 resultVertical.add(matrix[k, i])
-                resultHorizontal.sort()
-                resultVertical.sort()
+
             }
-            if (resultHorizontal != example || resultVertical != example)
+            if (!(resultHorizontal.containsAll(example) && resultVertical.containsAll(example)))
                 return false
         }
-    }
+
     return true
 }
 
@@ -188,8 +182,43 @@ fun isLatinSquare(matrix: Matrix<Int>): Boolean {
  *
  * 42 ===> 0
  */
-fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> = TODO()
+fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> {
+    val res = createMatrix(matrix.height, matrix.width, 0)
 
+    if (matrix.height <= 1 && matrix.width <= 1) return res
+
+    val h = matrix.height - 1
+    val w = matrix.width - 1
+
+    for (k in 1 until w) {
+        res[0, k] = matrix[0, k - 1] + matrix[0, k + 1] + matrix[1, k - 1] + matrix[1, k] + matrix[1, k + 1]
+        res[h, k] = matrix[h, k + 1] + matrix[h, k - 1] + matrix[h - 1, k + 1] + matrix[h - 1, k] + matrix[h - 1, k - 1]
+    }
+
+    for (k in 1 until h) {
+        res[k, 0] = matrix[k - 1, 0] + matrix[k + 1, 0] + matrix[k - 1, 1] + matrix[k, 1] + matrix[k + 1, 1]
+        res[k, w] = matrix[k + 1, w] + matrix[k - 1, w] + matrix[k, w - 1] + matrix[k + 1, w - 1] + matrix[k - 1, w - 1]
+    }
+
+
+    res[0, 0] = matrix[0, 1] + matrix[1, 1] + matrix[1, 0]
+    res[0, w] = matrix[0, w - 1] + matrix[1, w - 1] + matrix[1, w]
+    res[h, 0] = matrix[h - 1, 0] + matrix[h, 1] + matrix[h - 1, 1]
+    res[h, w] = matrix[h - 1, w - 1] + matrix[h - 1, w] + matrix[h, w - 1]
+
+    for (i in 1 until h)
+        for (k in 1 until w)
+            res[i, k] = matrix[i + 1, k + 1] + matrix[i - 1, k - 1] + matrix[i + 1, k - 1] + matrix[i - 1, k + 1] + matrix[i, k - 1] + matrix[i - 1, k] + matrix[i + 1, k] + matrix[i, k + 1]
+    return res
+
+}
+
+/** val sum1 = res[i + 1, k] + res[i, k + 1] + res[i + 1, k + 1]
+val sum2 = res[i + 1, k] + res[i, k - 1] + res[i + 1, k - 1]
+val sum3 = res[i - 1, k] + res[i, k + 1] + res[i - 1, k + 1]
+val sum4 = res[i - 1, k] + res[i, k - 1] + res[i - 1, k - 1]
+val sum5 = sum1 + sum2 + sum3 + sum4 - res[i - 1, k] - res[i, k + 1]
+ */
 
 /**
  * Средняя
