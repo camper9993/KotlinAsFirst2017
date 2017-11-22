@@ -223,7 +223,7 @@ fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> {
             res[0, 0] = matrix[1, 0]
             for (k in 1 until h)
                 res[k, 0] = matrix[k + 1, 0] + matrix[k - 1, 0]
-            res[0, w] = matrix[h - 1, 0]
+            res[h, 0] = matrix[h - 1, 0]
         }
     }
     return res
