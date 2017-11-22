@@ -74,8 +74,7 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
 
     fun equality(other: MatrixImpl<*>): Boolean {
         if (height != other.height && width != other.width) return false
-        for (i in 0 until height * width)
-            if (list[i] != other.list[i]) return false
+            if (list != other.list) return false
         return true
     }
 
