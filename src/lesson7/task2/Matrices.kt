@@ -81,16 +81,16 @@ fun generateRectangles(height: Int, width: Int): Matrix<Int> {
     val result = createMatrix(height, width, k)
     var h = height
     var w = width
-    var i = maxOf(h,w) / 2 + maxOf(h,w) % 2
+    var i = minOf(h, w) / 2 + minOf(h, w) % 2
 
     while (i != 0) {
         for (j in k - 1 until h) {
-            result[i, k - 1] = k
-            result[i, w - 1] = k
+            result[j, k - 1] = k
+            result[j, w - 1] = k
         }
         for (j in k - 1 until w) {
-            result[h - 1, i] = k
-            result[k - 1, i] = k
+            result[h - 1, j] = k
+            result[k - 1, j] = k
         }
         h--
         w--
@@ -146,21 +146,21 @@ fun isLatinSquare(matrix: Matrix<Int>): Boolean {
 
     if (matrix.height != matrix.width) return false
 
-        for (i in 0 until matrix.width) {
-            example.add(i + 1)
-        }
+    for (i in 0 until matrix.width) {
+        example.add(i + 1)
+    }
 
-        for (i in 0 until matrix.height) {
-            val resultHorizontal = mutableSetOf<Int>()
-            val resultVertical = mutableSetOf<Int>()
-            for (k in 0 until matrix.width) {
-                resultHorizontal.add(matrix[i, k])
-                resultVertical.add(matrix[k, i])
+    for (i in 0 until matrix.height) {
+        val resultHorizontal = mutableSetOf<Int>()
+        val resultVertical = mutableSetOf<Int>()
+        for (k in 0 until matrix.width) {
+            resultHorizontal.add(matrix[i, k])
+            resultVertical.add(matrix[k, i])
 
-            }
-            if (!(resultHorizontal.containsAll(example) && resultVertical.containsAll(example)))
-                return false
         }
+        if (!(resultHorizontal.containsAll(example) && resultVertical.containsAll(example)))
+            return false
+    }
 
     return true
 }
@@ -185,30 +185,47 @@ fun isLatinSquare(matrix: Matrix<Int>): Boolean {
 fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> {
     val res = createMatrix(matrix.height, matrix.width, 0)
 
-    if (matrix.height <= 1 && matrix.width <= 1) return res
-
     val h = matrix.height - 1
     val w = matrix.width - 1
 
-    for (k in 1 until w) {
-        res[0, k] = matrix[0, k - 1] + matrix[0, k + 1] + matrix[1, k - 1] + matrix[1, k] + matrix[1, k + 1]
-        res[h, k] = matrix[h, k + 1] + matrix[h, k - 1] + matrix[h - 1, k + 1] + matrix[h - 1, k] + matrix[h - 1, k - 1]
+    if (h <= 0 && w <= 0) return res
+
+
+    when {
+        h != 0 && w != 0 -> {
+            for (k in 1 until w) {
+                res[0, k] = matrix[0, k - 1] + matrix[0, k + 1] + matrix[1, k - 1] + matrix[1, k] + matrix[1, k + 1]
+                res[h, k] = matrix[h, k + 1] + matrix[h, k - 1] + matrix[h - 1, k + 1] + matrix[h - 1, k] + matrix[h - 1, k - 1]
+            }
+
+            for (k in 1 until h) {
+                res[k, 0] = matrix[k - 1, 0] + matrix[k + 1, 0] + matrix[k - 1, 1] + matrix[k, 1] + matrix[k + 1, 1]
+                res[k, w] = matrix[k + 1, w] + matrix[k - 1, w] + matrix[k, w - 1] + matrix[k + 1, w - 1] + matrix[k - 1, w - 1]
+            }
+
+
+            res[0, 0] = matrix[0, 1] + matrix[1, 1] + matrix[1, 0]
+            res[0, w] = matrix[0, w - 1] + matrix[1, w - 1] + matrix[1, w]
+            res[h, 0] = matrix[h - 1, 0] + matrix[h, 1] + matrix[h - 1, 1]
+            res[h, w] = matrix[h - 1, w - 1] + matrix[h - 1, w] + matrix[h, w - 1]
+
+            for (i in 1 until h)
+                for (k in 1 until w)
+                    res[i, k] = matrix[i + 1, k + 1] + matrix[i - 1, k - 1] + matrix[i + 1, k - 1] + matrix[i - 1, k + 1] + matrix[i, k - 1] + matrix[i - 1, k] + matrix[i + 1, k] + matrix[i, k + 1]
+        }
+        h == 0 -> {
+            res[0, 0] = matrix[0, 1]
+            for (k in 1 until w)
+                res[0, k] = matrix[0, k + 1] + matrix[0, k - 1]
+            res[0, w] = matrix[0, w - 1]
+        }
+        w == 0 -> {
+            res[0, 0] = matrix[1, 0]
+            for (k in 1 until h)
+                res[k, 0] = matrix[k + 1, 0] + matrix[k - 1, 0]
+            res[0, w] = matrix[h - 1, 0]
+        }
     }
-
-    for (k in 1 until h) {
-        res[k, 0] = matrix[k - 1, 0] + matrix[k + 1, 0] + matrix[k - 1, 1] + matrix[k, 1] + matrix[k + 1, 1]
-        res[k, w] = matrix[k + 1, w] + matrix[k - 1, w] + matrix[k, w - 1] + matrix[k + 1, w - 1] + matrix[k - 1, w - 1]
-    }
-
-
-    res[0, 0] = matrix[0, 1] + matrix[1, 1] + matrix[1, 0]
-    res[0, w] = matrix[0, w - 1] + matrix[1, w - 1] + matrix[1, w]
-    res[h, 0] = matrix[h - 1, 0] + matrix[h, 1] + matrix[h - 1, 1]
-    res[h, w] = matrix[h - 1, w - 1] + matrix[h - 1, w] + matrix[h, w - 1]
-
-    for (i in 1 until h)
-        for (k in 1 until w)
-            res[i, k] = matrix[i + 1, k + 1] + matrix[i - 1, k - 1] + matrix[i + 1, k - 1] + matrix[i - 1, k + 1] + matrix[i, k - 1] + matrix[i - 1, k] + matrix[i + 1, k] + matrix[i, k + 1]
     return res
 
 }
