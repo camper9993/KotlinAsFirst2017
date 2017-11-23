@@ -158,7 +158,7 @@ fun isLatinSquare(matrix: Matrix<Int>): Boolean {
             resultVertical.add(matrix[k, i])
 
         }
-        if (!(resultHorizontal.containsAll(example) && resultVertical.containsAll(example)))
+        if (!resultHorizontal.containsAll(example) || !resultVertical.containsAll(example))
             return false
     }
 
