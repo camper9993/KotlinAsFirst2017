@@ -91,7 +91,7 @@ fun sibilants(inputName: String, outputName: String) {
  *
  */
 fun centerFile(inputName: String, outputName: String) {
-
+    TODO()
 }
 /**
  * Сложная
@@ -251,7 +251,7 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
     val result = mutableListOf<String>()
     var maxLength = 0
     for (line in text) {
-        if (line.length >= maxLength)
+        if (line.length >= maxLength && checkDifferentLetters(line))
             maxLength = line.length
     }
     for (line in text)
