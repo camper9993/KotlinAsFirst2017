@@ -4,6 +4,8 @@ package lesson8.task1
 
 import java.io.File
 
+
+
 /**
  * Пример
  *
@@ -137,7 +139,7 @@ fun alignFileByWidth(inputName: String, outputName: String) {
     val text = File(inputName).readLines()
     var maxLength = 0
     val reformatText = mutableListOf<String>()
-    var result = ""
+    val result = StringBuilder()
 
     for (line in text) {
         val newLine = line.replace(Regex(" {2,}"), " ").trim()
@@ -146,45 +148,47 @@ fun alignFileByWidth(inputName: String, outputName: String) {
             maxLength = newLine.length
         }
     }
-    for (i in 0 until reformatText.size) {
-        if (reformatText[i].length != maxLength) {
-            val parts = reformatText[i].split(" ")
-            val difference = maxLength - (reformatText[i].length - parts.size + 1)
-            if (reformatText[i] != "") {
+    for (element in reformatText) {
+        if (element.length != maxLength) {
+            val parts = element.split(" ")
+            val difference = maxLength - (element.length - parts.size + 1)
+            if (element != "") {
                 if (parts.size == 1)
-                    result += parts[0]
+                    result.append(parts[0])
                 if (parts.size > 1) {
                     val spaces = spaces(difference, parts.size - 1)
-                    result += parts[0]
-                    for (k in 0 until spaces.size)
-                        result = result + spaces[k] + parts[k + 1]
+                    result.append(parts[0])
+                    for (k in 0 until spaces.size) {
+                        result.append(spaces[k])
+                        result.append(parts[k + 1])
+                    }
                 }
 
-            } else result += ""
-            result += "\n"
+            } else result.append("")
+            result.append("\n")
 
-        } else
-            result += reformatText[i] + "\n"
+        } else {
+            result.append(element)
+            result.append("\n")
+        }
     }
-    return File(outputName).writeText(result)
+    return File(outputName).writeText(result.toString())
 }
 
 fun spaces(sumSpaces: Int, position: Int): MutableList<String> {
     var remainder = sumSpaces % position
-    var number: Int
     val spacesList = mutableListOf<String>()
-    var spaces = ""
 
     for (i in 0 until position) {
-        number = sumSpaces / position
+        var number = sumSpaces / position
         if (remainder > 0)
             number++
         remainder--
+        var spaces = ""
         for (k in 0 until number) {
             spaces += " "
         }
         spacesList.add(spaces)
-        spaces = ""
     }
     return spacesList
 }
@@ -264,21 +268,25 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
     val result = mutableListOf<String>()
     var maxLength = 0
     for (line in text) {
-        if (line.length >= maxLength && checkDifferentLetters(line))
+        if (line.length >= maxLength && checkDifferentLetters(line)) {
             maxLength = line.length
-    }
-    for (line in text)
+        }
         if (line.length == maxLength && checkDifferentLetters(line))
             result.add(line)
+    }
+
     return File(outputName).writeText(result.joinToString( ", "))
 }
 
 fun checkDifferentLetters(str: String): Boolean {
-    val line = str.toLowerCase()
-    for (i in 0 until line.length - 1)
-        for (k in i + 1 until line.length) {
-            if (line[i] == line[k])
-                return false
+    val line = str.toLowerCase().toCharArray()
+    val check = mutableSetOf<Char>()
+    for (element in line)
+         {
+             if (!check.contains(element))
+                 check.add(element)
+             else
+                 return false
         }
     return true
 }
