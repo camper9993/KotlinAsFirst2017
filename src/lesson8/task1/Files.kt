@@ -5,7 +5,6 @@ package lesson8.task1
 import java.io.File
 
 
-
 /**
  * Пример
  *
@@ -76,14 +75,14 @@ fun sibilants(inputName: String, outputName: String) {
     val regex = Regex("[ЖЧШЩжчшщ]")
     for (i in 0 until text.size - 1) {
         if (text[i].toString() matches regex)
-          when (text[i + 1]) {
-              'ы' -> text[i + 1] = 'и'
-              'Ы' -> text[i + 1] = 'И'
-              'я' -> text[i + 1] = 'а'
-              'Я' -> text[i + 1] = 'А'
-              'ю' -> text[i + 1] = 'у'
-              'Ю' -> text[i + 1] = 'У'
-          }
+            when (text[i + 1]) {
+                'ы' -> text[i + 1] = 'и'
+                'Ы' -> text[i + 1] = 'И'
+                'я' -> text[i + 1] = 'а'
+                'Я' -> text[i + 1] = 'А'
+                'ю' -> text[i + 1] = 'у'
+                'Ю' -> text[i + 1] = 'У'
+            }
     }
     return File(outputName).writeText(text.joinToString(""))
 }
@@ -108,6 +107,7 @@ fun sibilants(inputName: String, outputName: String) {
 fun centerFile(inputName: String, outputName: String) {
     TODO()
 }
+
 /**
  * Сложная
  *
@@ -268,28 +268,30 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
     val result = mutableListOf<String>()
     var maxLength = 0
     for (line in text) {
-        if (line.length >= maxLength && checkDifferentLetters(line)) {
+        if (line.length >= maxLength && checkDifferentLetters(line))
             maxLength = line.length
-        }
+    }
+    for (line in text) {
         if (line.length == maxLength && checkDifferentLetters(line))
             result.add(line)
     }
 
-    return File(outputName).writeText(result.joinToString( ", "))
+
+    return File(outputName).writeText(result.joinToString(", "))
 }
 
 fun checkDifferentLetters(str: String): Boolean {
     val line = str.toLowerCase().toCharArray()
     val check = mutableSetOf<Char>()
-    for (element in line)
-         {
-             if (!check.contains(element))
-                 check.add(element)
-             else
-                 return false
-        }
+    for (element in line) {
+        if (!check.contains(element))
+            check.add(element)
+        else
+            return false
+    }
     return true
 }
+
 /**
  * Сложная
  *
@@ -336,6 +338,7 @@ Suspendisse <s>et elit in enim tempus iaculis</s>.
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
 
 }
+
 /**
  * Сложная
  *
